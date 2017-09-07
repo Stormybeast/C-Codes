@@ -58,7 +58,7 @@ class expense
        fseek(fp,0,SEEK_END);
        rem = stof();
        
-       cout<<"The reamining Balance is: "<<rem<<endl;
+       cout<<"The remaining Balance is: "<<rem<<endl;
     }
     
     void new_account()
@@ -585,6 +585,12 @@ private:
             {
                 c_num[i]=NULL; 
             }
+            i=0;
+            
+            if(temp == 0)
+            {
+                c_num[0]='0';
+            }
 
             while(temp!=0)
             {
@@ -648,13 +654,16 @@ private:
     
             i=0;
             digit=0;
-    
-            if(num == 0)
+            
+            int temp_digit[2];
+            
+            if(num == 0.00)
             {
                 int length=strlen(c_num);
                 c_num[length]='0';
                 length++;
                 c_num[length]='0';
+                j=3;
             }
             else
             {   
@@ -662,17 +671,20 @@ private:
                 {
                     num=num*10;
                     temp=num;
-                    digit=(digit*10)+temp;
+                    temp_digit[i]=temp;
                     num=num-temp;
                     i++;
                 }
+                j=0;
             }
     
-            i=strlen(c_num)+1;
-    
-            while((i>=strlen(c_num)) && (digit!=0))
+            i=strlen(c_num);
+            
+            if(i<7)
             {
-                temp=digit%10;
+            while((j<2)&&(i<=7))
+            {
+                temp=temp_digit[j];
                 if(temp == 0)
                 {
                     c_num[i]='0';
@@ -713,8 +725,9 @@ private:
                 {
                     c_num[i]='9';
                 }
-                digit=digit/10;
-                i--;
+                i++;
+                j++;
+            }
             }
     }
     
@@ -862,7 +875,10 @@ int main()
         cout<<"4) Close account of current day."<<endl;
         cout<<"5) Enter Credit."<<endl;
         cout<<"6) Enter Debit."<<endl;
-        cout<<"7) Exit Program."<<endl;
+        cout<<"7) Display File"<<endl;
+        cout<<"8) Exit"<<endl<<endl;
+        
+        cout<<"Enter your choice: ";
         cin>>choice;
         
         cin.ignore();
@@ -915,8 +931,14 @@ int main()
                    fclose(e.fp);
             break;
             
-            
             case 7:
+                   e.fp = fopen(directory,"r+");
+                   e.display();
+                   fclose(e.fp);
+            break;
+            
+            
+            case 8:
                    n=0;
             break;
             
